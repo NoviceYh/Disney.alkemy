@@ -1,7 +1,6 @@
 package disney.alkemy.entity;
 
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,10 +10,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE personaje SET deleted = true WHERE id=?")
+@Where(clause = "deleted = false")
 @Table(name = "personaje")
 public class PersonajeEntity {
 
@@ -31,8 +34,9 @@ public class PersonajeEntity {
     private Long peso;
 
     private String historia;
-    
-    //Un Personaje no puede crear una pelicula, pero si de una pelicula se puede crear un personaje
+
+    private boolean deleted = Boolean.FALSE;
+
     @ManyToMany(mappedBy = "personajes",
             fetch = FetchType.LAZY)
     private Set<PeliculaEntity> peliculas;
