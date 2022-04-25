@@ -41,11 +41,11 @@ public class PersonajeEntity {
             fetch = FetchType.LAZY)
     private Set<PeliculaEntity> peliculas;
 
-    @Override
-    public boolean equals(Object o) {
-        PersonajeEntity personajeEntity = (PersonajeEntity) o;
-        return this.id.equals(personajeEntity.getId());
-    }
+//    @Override
+//    public boolean equals(Object o) {
+//        PersonajeEntity personajeEntity = (PersonajeEntity) o;
+//        return this.id.equals(personajeEntity.getId());
+//    }
     
     
 
