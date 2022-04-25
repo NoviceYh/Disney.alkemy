@@ -27,6 +27,17 @@ public class PersonajeMapper {
         entity.setPeso(dto.getPeso());
         return entity;
     }
+    
+    //Update
+    public PersonajeEntity personajeDTO2Entity(PersonajeDTO dto, PersonajeEntity entity) {
+        entity.setEdad(dto.getEdad());
+        entity.setHistoria(dto.getHistoria());
+        entity.setImagen(dto.getImagen());
+        entity.setNombre(dto.getNombre());
+        entity.setPeso(dto.getPeso());
+        return entity;
+    }
+    
 
     //Entity to DTO GET -- OK
     public PersonajeDTO personajeEntity2DTO(PersonajeEntity entity, boolean loadPeliculas) {

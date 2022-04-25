@@ -5,6 +5,7 @@ import disney.alkemy.dto.PeliculaDTO;
 import disney.alkemy.service.PeliculaService;
 import java.util.List;
 import java.util.Set;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +43,7 @@ public class PeliculaController {
     }
 
     @PostMapping
-    public ResponseEntity<PeliculaDTO> save(@RequestBody PeliculaDTO dto) {
+    public ResponseEntity<PeliculaDTO> save(@Valid @RequestBody PeliculaDTO dto) {
         PeliculaDTO result = peliculaService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -54,7 +55,7 @@ public class PeliculaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PeliculaDTO> updateMovie(@RequestBody PeliculaDTO dto, @PathVariable Long id) {
+    public ResponseEntity<PeliculaDTO> updateMovie(@Valid @RequestBody PeliculaDTO dto, @PathVariable Long id) {
         PeliculaDTO result = peliculaService.updateById(dto, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

@@ -6,6 +6,7 @@ import disney.alkemy.dto.PeliculaFiltersDTO;
 import disney.alkemy.entity.GeneroEntity;
 import disney.alkemy.entity.PeliculaEntity;
 import disney.alkemy.entity.PersonajeEntity;
+import disney.alkemy.exception.ErrorEnum;
 import disney.alkemy.exception.ParamNotFound;
 import disney.alkemy.mapper.PeliculaMapper;
 import disney.alkemy.repository.GeneroRepository;
@@ -40,7 +41,10 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     @Override // -- OK
     public PeliculaDTO save(PeliculaDTO dto) {
+        GeneroEntity genero = generoRepository.findById(dto.getGenero().getId())
+                .orElseThrow(() -> new ParamNotFound(ErrorEnum.IDMOVIENOTVALID.getMessage()));
         PeliculaEntity entity = peliculaMapper.peliculaDTO2Entity(dto);
+        entity.setGenero(genero);
         PeliculaEntity entitySaved = peliculaRepository.save(entity);
         PeliculaDTO result = peliculaMapper.peliculaEntity2DTO(entitySaved, true, true);
         return result;
@@ -49,16 +53,19 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override // -- OK
     public PeliculaDTO getById(Long id) {
         PeliculaEntity entity = peliculaRepository.findById(id)
-                .orElseThrow(() -> new ParamNotFound("El id de la Pelicula no existe."));
+                .orElseThrow(() -> new ParamNotFound(ErrorEnum.IDMOVIENOTVALID.getMessage()));
         PeliculaDTO dto = peliculaMapper.peliculaEntity2DTO(entity, true, true);
         return dto;
     }
 
     @Override // -- OK
     public PeliculaDTO updateById(PeliculaDTO dto, Long id) {
+        GeneroEntity genero = generoRepository.findById(dto.getGenero().getId())
+                .orElseThrow(() -> new ParamNotFound(ErrorEnum.IDGENRENOTVALID.getMessage()));
         PeliculaEntity entity = peliculaRepository
-                .findById(id).orElseThrow(() -> new ParamNotFound("El id de la pelicula no es valido."));
+                .findById(id).orElseThrow(() -> new ParamNotFound(ErrorEnum.IDMOVIENOTVALID.getMessage()));
         entity = peliculaMapper.updatePeliculaDTO2Entity(entity, dto);
+        entity.setGenero(genero);
         PeliculaDTO result = peliculaMapper.peliculaEntity2DTO(peliculaRepository.save(entity), true, true);
         return result;
     }
@@ -74,13 +81,13 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override // -- OK
     public PeliculaDTO saveCharacter(Long idMovie, Long idCharacter) {
         PeliculaEntity movie = peliculaRepository
-                .findById(idMovie).orElseThrow(() -> new ParamNotFound("El id de la pelicula no es valido."));
+                .findById(idMovie).orElseThrow(() -> new ParamNotFound(ErrorEnum.IDMOVIENOTVALID.getMessage()));
         PersonajeEntity character = personajeRepository.findById(idCharacter)
-                .orElseThrow(() -> new ParamNotFound("El id del personaje no es valido."));
+                .orElseThrow(() -> new ParamNotFound(ErrorEnum.IDCHARACTERNOTVALID.getMessage()));
         //Update
         Set<PersonajeEntity> personajes = movie.getPersonajes();
         personajes.add(character);
-        movie.setPersonajes(personajes);
+        //movie.setPersonajes(personajes); No hace falta
         peliculaRepository.save(movie);
         //
         PeliculaDTO dto = peliculaMapper.peliculaEntity2DTO(movie, true, true);
@@ -90,21 +97,21 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override // -- OK
     public void delete(Long id) {
         PeliculaEntity entity = peliculaRepository.findById(id)
-                .orElseThrow(() -> new ParamNotFound("El id de la pelicula no es valido."));
+                .orElseThrow(() -> new ParamNotFound(ErrorEnum.IDMOVIENOTVALID.getMessage()));
         peliculaRepository.deleteById(id);
     }
 
     @Override // -- OK
     public void deleteCharacter(Long idMovie, Long idCharacter) {
         PeliculaEntity movie = peliculaRepository
-                .findById(idMovie).orElseThrow(() -> new ParamNotFound("El id de la pelicula no es valido."));
+                .findById(idMovie).orElseThrow(() -> new ParamNotFound(ErrorEnum.IDMOVIENOTVALID.getMessage()));
         PersonajeEntity character = personajeRepository.findById(idCharacter)
-                .orElseThrow(() -> new ParamNotFound("El id del personaje no es valido."));
+                .orElseThrow(() -> new ParamNotFound(ErrorEnum.IDCHARACTERNOTVALID.getMessage()));
         //DeleteCharacter
         //Luego cambiar por el uso del metodo equals para eliminar
         Set<PersonajeEntity> personajes = movie.getPersonajes();
         personajes.remove(character);
-        movie.setPersonajes(personajes);
+        //movie.setPersonajes(personajes); No hace falta
         peliculaRepository.save(movie);
     }
 }

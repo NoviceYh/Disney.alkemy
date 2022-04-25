@@ -6,6 +6,7 @@ import disney.alkemy.entity.PersonajeEntity;
 import disney.alkemy.service.PersonajeService;
 import java.util.List;
 import java.util.Set;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,13 +44,13 @@ public class PersonajeController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonajeDTO> savePersonaje(@RequestBody PersonajeDTO dto) {
+    public ResponseEntity<PersonajeDTO> savePersonaje(@Valid @RequestBody PersonajeDTO dto) {
         PersonajeDTO result = personajeService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PersonajeDTO> putPersonajeById(@PathVariable Long id, @RequestBody PersonajeDTO dto) {
+    public ResponseEntity<PersonajeDTO> putPersonajeById(@PathVariable Long id, @Valid @RequestBody PersonajeDTO dto) {
         PersonajeDTO result = personajeService.updateById(dto, id);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }

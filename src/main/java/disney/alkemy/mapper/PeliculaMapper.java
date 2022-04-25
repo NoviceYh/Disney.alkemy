@@ -4,11 +4,8 @@ import disney.alkemy.dto.GeneroDTO;
 import disney.alkemy.dto.PeliculaBasicDTO;
 import disney.alkemy.dto.PeliculaDTO;
 import disney.alkemy.dto.PersonajeDTO;
-import disney.alkemy.entity.GeneroEntity;
 import disney.alkemy.entity.PeliculaEntity;
 import disney.alkemy.entity.PersonajeEntity;
-import disney.alkemy.exception.ParamNotFound;
-import disney.alkemy.repository.GeneroRepository;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,9 +20,6 @@ public class PeliculaMapper {
     private GeneroMapper generoMapper;
 
     @Autowired
-    private GeneroRepository generoRepository;
-
-    @Autowired
     private PersonajeMapper personajeMapper;
 
     //DTO to Entity -- OK
@@ -36,9 +30,9 @@ public class PeliculaMapper {
         entity.setImagen(dto.getImagen());
         entity.setTitulo(dto.getTitulo());
         //Genero    
-        GeneroEntity generoEntity = generoRepository.findById(dto.getGenero().getId())
-                .orElseThrow(() -> new ParamNotFound("El id de genero no es valido."));
-        entity.setGenero(generoEntity);
+//        GeneroEntity generoEntity = generoRepository.findById(dto.getGenero().getId())
+//                .orElseThrow(() -> new ParamNotFound("El id de genero no es valido."));
+//        entity.setGenero(generoEntity);
         //Personaje
         Set<PersonajeEntity> personajes = personajeMapper.listPersonajeDTO2Entity(dto.getPersonajes());
         entity.setPersonajes(personajes);
@@ -52,9 +46,9 @@ public class PeliculaMapper {
         entity.setFechaCreacion(dto.getFechaCreacion());
         entity.setImagen(dto.getImagen());
         entity.setTitulo(dto.getTitulo());
-        GeneroEntity generoEntity = generoRepository.findById(dto.getGenero().getId())
-                .orElseThrow(() -> new ParamNotFound("El id de genero no es valido"));
-        entity.setGenero(generoEntity);
+//        GeneroEntity generoEntity = generoRepository.findById(dto.getGenero().getId())
+//                .orElseThrow(() -> new ParamNotFound("El id de genero no es valido"));
+//        entity.setGenero(generoEntity);
         return entity;
     }
 

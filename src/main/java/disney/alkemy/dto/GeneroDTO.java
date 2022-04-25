@@ -1,5 +1,6 @@
 package disney.alkemy.dto;
 
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,8 @@ import lombok.Setter;
 public class GeneroDTO {
 
     private Long id;
-
+    
+    @NotNull
     private String nombre;
 
     private String imagen;

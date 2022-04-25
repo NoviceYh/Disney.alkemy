@@ -2,6 +2,7 @@ package disney.alkemy.controller;
 
 import disney.alkemy.dto.GeneroDTO;
 import disney.alkemy.service.GeneroService;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class GeneroController {
     private GeneroService generoService;
 
     @PostMapping
-    public ResponseEntity<GeneroDTO> save(@RequestBody GeneroDTO dto) {
+    public ResponseEntity<GeneroDTO> save(@Valid @RequestBody GeneroDTO dto) {
         GeneroDTO result = generoService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
