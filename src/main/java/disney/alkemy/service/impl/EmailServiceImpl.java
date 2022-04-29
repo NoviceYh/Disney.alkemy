@@ -8,6 +8,7 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import disney.alkemy.exception.ErrorEnum;
+import disney.alkemy.exception.ParamNotFound;
 import disney.alkemy.service.EmailService;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class EmailServiceImpl implements EmailService {
             System.out.println(response.getBody());
             System.out.println(response.getHeaders());
         } catch (IOException e) {
-            System.out.println(ErrorEnum.ERRORTOSENDEMAIL.getMessage());
+            throw new ParamNotFound(ErrorEnum.ERRORTOSENDEMAIL.getMessage());
         }
     }
 

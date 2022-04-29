@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,10 +36,13 @@ public class UserDetailsCustomService implements UserDetailsService {
     public boolean save(UserDTO userDTO) {
         UserEntity user = userRepository.findByUsername(userDTO.getUsername());
         if (!(user == null)) {
-            throw new ParamNotFound(ErrorEnum.USERALREADYEXIST.getMessage());
+            throw new UsernameNotFoundException(ErrorEnum.USERALREADYEXIST.getMessage());
         }
+        
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        
         UserEntity userEntity = new UserEntity();
-        userEntity.setPassword(userDTO.getPassword());
+        userEntity.setPassword(encoder.encode(userDTO.getPassword()));
         userEntity.setUsername(userDTO.getUsername());
         userEntity = userRepository.save(userEntity);
         if (userEntity != null) {

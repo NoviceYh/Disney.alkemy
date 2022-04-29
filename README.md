@@ -22,3 +22,10 @@ Para lograr la solicitud del cliente, deberás desarrollar una API que permita n
 - SPRING DEVTOOLS
 - MYSQL DRIVER
 - LOMBOK
+- SENDGRID
+- SPRING SECURITY
+- VALIDATION
+- JASON WEB TOKEN
+
+#### POSTMAN: 
+- URL Documentacion: https://documenter.getpostman.com/view/20065654/UyrGAteo
